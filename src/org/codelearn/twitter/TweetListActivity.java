@@ -1,5 +1,10 @@
 package org.codelearn.twitter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.codelearn.twitter.models.Tweet;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +17,7 @@ public class TweetListActivity extends ListActivity {
 	private ListView tweetListView;
 	private String stringArray[];
 	private ArrayAdapter tweetItemArrayAdapter;
-	
+	List<Tweet> tweets;
 	
 
 	@Override
@@ -35,7 +40,16 @@ public class TweetListActivity extends ListActivity {
 		tweetListView.setAdapter(itemArrayAdapter);*/
 		
 		
-		tweetItemArrayAdapter = new TweetAdapter(this, new String [10]);
+		tweets = new ArrayList<Tweet>();
+		
+		for(int i=0;i<15;i++)
+		{
+			Tweet tweet = new Tweet();
+			tweet.setTitle("This is title for Tweet "+i);
+			tweet.setBody("This is Nice Bosy for tweet Number "+i);
+			tweets.add(tweet);
+		}
+		tweetItemArrayAdapter = new TweetAdapter(this, tweets);
 		setListAdapter(tweetItemArrayAdapter);
 	}
 	
