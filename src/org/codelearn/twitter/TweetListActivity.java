@@ -1,6 +1,8 @@
 package org.codelearn.twitter;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,12 @@ public class TweetListActivity extends ListActivity {
 	private String stringArray[];
 	private ArrayAdapter tweetItemArrayAdapter;
 	List<Tweet> tweets;
+	
+	/*FileInputStream fis;
+	FileOutputStream newfos;
+	ObjectOutputStream newoos;
+	ObjectInputStream ois;
+	*/
 	private static final String TWEETS_CACHE_FILE = "tweet_cache.ser";
 
 	@Override
@@ -43,8 +51,32 @@ public class TweetListActivity extends ListActivity {
 		tweetListView.setAdapter(itemArrayAdapter);*/
 		
 		// Reading tweets from cached file
+		try{
+
+			
+		List<Tweet> tweetsRead = new ArrayList<Tweet>();
+		FileInputStream fis = openFileInput(TWEETS_CACHE_FILE);
+		ObjectInputStream ois = new ObjectInputStream(fis);
 		
-		tweets = new ArrayList<Tweet>();
+		tweetsRead = (List<Tweet>) ois.readObject();
+
+		Log.d("codelearn", "Successfully read tweets to the file.");
+		List<Tweet> tweetsWrite = new ArrayList<Tweet>();
+		for(int i=0;i<10;i++)
+		{
+			Tweet tweet = new Tweet();
+			tweet.setTitle("This is new title for Tweet "+i);
+			tweet.setBody("This is new Nice Bosy for tweet Number "+i);
+			tweetsWrite.add(tweet);
+			
+		}
+
+		FileOutputStream newfos = openFileOutput(TWEETS_CACHE_FILE, MODE_PRIVATE);
+		ObjectOutputStream newoos = new ObjectOutputStream(newfos);
+		
+		newoos.writeObject(tweetsWrite);
+		
+		/*tweets = new ArrayList<Tweet>();
 		
 		for(int i=0;i<15;i++)
 		{
@@ -54,21 +86,37 @@ public class TweetListActivity extends ListActivity {
 			tweets.add(tweet);
 		}
 		
-		try{
+		
 		FileOutputStream fos = openFileOutput(TWEETS_CACHE_FILE, MODE_PRIVATE);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		oos.writeObject(tweets);
+		
+		
+		
 		oos.close();
 		fos.close();
-		
+		*/
 		Log.d("codelearn", "Successfully wrote tweets to the file.");
 		
-		tweetItemArrayAdapter = new TweetAdapter(this, tweets);
+		tweetItemArrayAdapter = new TweetAdapter(this, tweetsRead);
 		setListAdapter(tweetItemArrayAdapter);
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
+		}
+		
+		finally{
+			/*try{
+			fis.close();
+			ois.close();
+			newfos.close();
+			newoos.close();
+			}
+			catch(Exception e)
+			{
+				
+			}*/
 		}
 	}
 	
