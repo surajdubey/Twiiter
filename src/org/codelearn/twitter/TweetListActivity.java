@@ -10,9 +10,7 @@ import java.util.List;
 import org.codelearn.twitter.models.Tweet;
 
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,7 +23,6 @@ public class TweetListActivity extends ListActivity {
 	private String stringArray[];
 	private ArrayAdapter tweetItemArrayAdapter;
 	List<Tweet> tweets;
-	List<Tweet> tweetsRead;
 	
 	FileInputStream fis;
 	FileOutputStream newfos;
@@ -82,7 +79,7 @@ public class TweetListActivity extends ListActivity {
 		}
 		*/
 		new AsyncFetchTweets(this).execute();
-		renderTweets();
+		//renderTweets();
 
 		
 	}
@@ -98,7 +95,10 @@ public class TweetListActivity extends ListActivity {
 	
 	public void renderTweets()
 	{
+		List<Tweet> tweetsRead = null;
 		try{
+			
+			
 		tweetsRead = new ArrayList<Tweet>();
 		FileInputStream fis = openFileInput(TWEETS_CACHE_FILE);
 		ObjectInputStream ois = new ObjectInputStream(fis);
