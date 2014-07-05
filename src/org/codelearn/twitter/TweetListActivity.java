@@ -10,7 +10,9 @@ import java.util.List;
 import org.codelearn.twitter.models.Tweet;
 
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -71,7 +73,7 @@ public class TweetListActivity extends ListActivity {
 			Log.d("codelearn", e.getMessage());
 		}
 		
-		try{
+		/*try{
 		List<Tweet> tweetsWrite = new ArrayList<Tweet>();
 		for(int i=0;i<10;i++)
 		{
@@ -96,8 +98,8 @@ public class TweetListActivity extends ListActivity {
 		{
 			Log.d("codelearn", e.getMessage());
 		}
-		
-		
+		*/
+		new AsyncFetchTweets(this).execute();
 		tweetItemArrayAdapter = new TweetAdapter(this, tweetsRead);
 		setListAdapter(tweetItemArrayAdapter);
 	}
@@ -110,6 +112,6 @@ public class TweetListActivity extends ListActivity {
 		Intent intent = new Intent(getApplicationContext(), TweetDetailActivity.class);
 		startActivity(intent);
 	}
-
-
+	
+	
 }
