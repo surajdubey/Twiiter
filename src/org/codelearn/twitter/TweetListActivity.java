@@ -1,5 +1,7 @@
 package org.codelearn.twitter;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import org.codelearn.twitter.models.Tweet;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -18,7 +21,7 @@ public class TweetListActivity extends ListActivity {
 	private String stringArray[];
 	private ArrayAdapter tweetItemArrayAdapter;
 	List<Tweet> tweets;
-	
+	private static final String TWEETS_CACHE_FILE = "tweet_cache.ser";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,7 @@ public class TweetListActivity extends ListActivity {
 		/*itemArrayAdapter = new TweetAdapter(this, new String[10]);
 		tweetListView.setAdapter(itemArrayAdapter);*/
 		
+		// Reading tweets from cached file
 		
 		tweets = new ArrayList<Tweet>();
 		
@@ -49,8 +53,23 @@ public class TweetListActivity extends ListActivity {
 			tweet.setBody("This is Nice Bosy for tweet Number "+i);
 			tweets.add(tweet);
 		}
+		
+		try{
+		FileOutputStream fos = openFileOutput(TWEETS_CACHE_FILE, MODE_PRIVATE);
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+		oos.writeObject(tweets);
+		oos.close();
+		fos.close();
+		
+		Log.d("codelearn", "Successfully wrote tweets to the file.");
+		
 		tweetItemArrayAdapter = new TweetAdapter(this, tweets);
 		setListAdapter(tweetItemArrayAdapter);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	@Override

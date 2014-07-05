@@ -30,6 +30,7 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
 		
 			TextView title = (TextView) convertView.findViewById(R.id.tweetTitle);
 			title.setText(tweets.get(position).getTitle());
+			title.setText(tweets.get(position).getBody());
 		
 		return convertView;
 	}
