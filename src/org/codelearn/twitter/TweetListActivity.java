@@ -23,12 +23,13 @@ public class TweetListActivity extends ListActivity {
 	private String stringArray[];
 	private ArrayAdapter tweetItemArrayAdapter;
 	List<Tweet> tweets;
+	List<Tweet> tweetsRead;
 	
-	/*FileInputStream fis;
+	FileInputStream fis;
 	FileOutputStream newfos;
 	ObjectOutputStream newoos;
 	ObjectInputStream ois;
-	*/
+	
 	private static final String TWEETS_CACHE_FILE = "tweet_cache.ser";
 
 	@Override
@@ -54,13 +55,25 @@ public class TweetListActivity extends ListActivity {
 		try{
 
 			
-		List<Tweet> tweetsRead = new ArrayList<Tweet>();
+		tweetsRead = new ArrayList<Tweet>();
 		FileInputStream fis = openFileInput(TWEETS_CACHE_FILE);
 		ObjectInputStream ois = new ObjectInputStream(fis);
 		
 		tweetsRead = (List<Tweet>) ois.readObject();
 
-		Log.d("codelearn", "Successfully read tweets to the file.");
+		Log.d("codelearn", "Read tweets from the file.");
+		
+		ois.close();
+		fis.close();
+		
+		}
+		
+		catch(Exception e)
+		{
+			
+		}
+		
+		try{
 		List<Tweet> tweetsWrite = new ArrayList<Tweet>();
 		for(int i=0;i<10;i++)
 		{
@@ -76,7 +89,13 @@ public class TweetListActivity extends ListActivity {
 		
 		newoos.writeObject(tweetsWrite);
 		
-		/*tweets = new ArrayList<Tweet>();
+		Log.d("codelearn", "Successfully wrote tweets to the file.");
+		
+		newoos.close();
+		newfos.close();
+		
+		/*	
+		tweets = new ArrayList<Tweet>();
 		
 		for(int i=0;i<15;i++)
 		{
@@ -91,23 +110,19 @@ public class TweetListActivity extends ListActivity {
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		oos.writeObject(tweets);
 		
-		
-		
-		oos.close();
-		fos.close();
-		*/
 		Log.d("codelearn", "Successfully wrote tweets to the file.");
-		
+		*/
 		tweetItemArrayAdapter = new TweetAdapter(this, tweetsRead);
 		setListAdapter(tweetItemArrayAdapter);
+
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			Log.d("codelearn", e.getMessage());
 		}
 		
 		finally{
-			/*try{
+			try{
 			fis.close();
 			ois.close();
 			newfos.close();
@@ -116,7 +131,7 @@ public class TweetListActivity extends ListActivity {
 			catch(Exception e)
 			{
 				
-			}*/
+			}
 		}
 	}
 	
