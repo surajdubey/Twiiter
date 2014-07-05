@@ -23,6 +23,7 @@ public class TweetListActivity extends ListActivity {
 	private String stringArray[];
 	private ArrayAdapter tweetItemArrayAdapter;
 	List<Tweet> tweets;
+	List<Tweet> tweetsRead;
 	
 	FileInputStream fis;
 	FileOutputStream newfos;
@@ -90,12 +91,13 @@ public class TweetListActivity extends ListActivity {
 		t.setText("tweet Clicked!!");*/
 		
 		Intent intent = new Intent(getApplicationContext(), TweetDetailActivity.class);
+		intent.putExtra("value", tweetsRead.get(position));
 		startActivity(intent);
 	}
 	
 	public void renderTweets()
 	{
-		List<Tweet> tweetsRead = null;
+		
 		try{
 			
 			

@@ -1,17 +1,29 @@
 package org.codelearn.twitter;
 
+import org.codelearn.twitter.models.Tweet;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 public class TweetDetailActivity extends Activity {
+	TextView title,body,date;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tweet_detail);
 
+		title = (TextView) findViewById(R.id.tweetTitle);
+		body = (TextView) findViewById(R.id.tweetBody);
+		date = (TextView) findViewById(R.id.tweetDate);
+		Tweet tweet = (Tweet) getIntent().getSerializableExtra("value");
+		
+		title.setText(tweet.getTitle());
+		body.setText(tweet.getBody());
 		
 	}
 
