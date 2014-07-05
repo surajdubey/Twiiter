@@ -28,8 +28,8 @@ public class TweetAdapter extends ArrayAdapter<Tweet> {
 		//if(convertView == null)
 		convertView = inflator.inflate(R.layout.row_tweet, parent, false);
 		
-			TextView title = (TextView) convertView.findViewById(R.id.tweetTitle);
-			title.setText(tweets.get(position).getTitle());
+		TextView title = (TextView) convertView.findViewById(R.id.tweetTitle);
+		title.setText(tweets.get(position).getTitle());
 			
 		return convertView;
 	}

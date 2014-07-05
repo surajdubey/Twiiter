@@ -54,24 +54,6 @@ public class TweetListActivity extends ListActivity {
 		tweetListView.setAdapter(itemArrayAdapter);*/
 		
 		// Reading tweets from cached file
-		try{
-		tweetsRead = new ArrayList<Tweet>();
-		FileInputStream fis = openFileInput(TWEETS_CACHE_FILE);
-		ObjectInputStream ois = new ObjectInputStream(fis);
-		
-		tweetsRead = (List<Tweet>) ois.readObject();
-
-		Log.d("codelearn", "Read tweets from the file.");
-		
-		ois.close();
-		fis.close();
-		
-		}
-		
-		catch(Exception e)
-		{
-			Log.d("codelearn", e.getMessage());
-		}
 		
 		/*try{
 		List<Tweet> tweetsWrite = new ArrayList<Tweet>();
@@ -100,8 +82,9 @@ public class TweetListActivity extends ListActivity {
 		}
 		*/
 		new AsyncFetchTweets(this).execute();
-		tweetItemArrayAdapter = new TweetAdapter(this, tweetsRead);
-		setListAdapter(tweetItemArrayAdapter);
+		renderTweets();
+
+		
 	}
 	
 	@Override
@@ -111,6 +94,31 @@ public class TweetListActivity extends ListActivity {
 		
 		Intent intent = new Intent(getApplicationContext(), TweetDetailActivity.class);
 		startActivity(intent);
+	}
+	
+	public void renderTweets()
+	{
+		try{
+		tweetsRead = new ArrayList<Tweet>();
+		FileInputStream fis = openFileInput(TWEETS_CACHE_FILE);
+		ObjectInputStream ois = new ObjectInputStream(fis);
+		
+		tweetsRead = (List<Tweet>) ois.readObject();
+
+		Log.d("codelearn", "Read tweets from the file.");
+		
+		ois.close();
+		fis.close();
+		
+		}
+		
+		catch(Exception e)
+		{
+			Log.d("codelearn", e.getMessage());
+		}
+
+		tweetItemArrayAdapter = new TweetAdapter(this, tweetsRead);
+		setListAdapter(tweetItemArrayAdapter);
 	}
 	
 	
