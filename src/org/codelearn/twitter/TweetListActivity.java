@@ -53,8 +53,6 @@ public class TweetListActivity extends ListActivity {
 		
 		// Reading tweets from cached file
 		try{
-
-			
 		tweetsRead = new ArrayList<Tweet>();
 		FileInputStream fis = openFileInput(TWEETS_CACHE_FILE);
 		ObjectInputStream ois = new ObjectInputStream(fis);
@@ -70,7 +68,7 @@ public class TweetListActivity extends ListActivity {
 		
 		catch(Exception e)
 		{
-			
+			Log.d("codelearn", e.getMessage());
 		}
 		
 		try{
@@ -78,10 +76,9 @@ public class TweetListActivity extends ListActivity {
 		for(int i=0;i<10;i++)
 		{
 			Tweet tweet = new Tweet();
-			tweet.setTitle("This is new title for Tweet "+i);
+			tweet.setTitle("A nice header for Tweet # "+i);
 			tweet.setBody("This is new Nice Bosy for tweet Number "+i);
 			tweetsWrite.add(tweet);
-			
 		}
 
 		FileOutputStream newfos = openFileOutput(TWEETS_CACHE_FILE, MODE_PRIVATE);
@@ -93,46 +90,16 @@ public class TweetListActivity extends ListActivity {
 		
 		newoos.close();
 		newfos.close();
-		
-		/*	
-		tweets = new ArrayList<Tweet>();
-		
-		for(int i=0;i<15;i++)
-		{
-			Tweet tweet = new Tweet();
-			tweet.setTitle("This is title for Tweet "+i);
-			tweet.setBody("This is Nice Bosy for tweet Number "+i);
-			tweets.add(tweet);
 		}
 		
-		
-		FileOutputStream fos = openFileOutput(TWEETS_CACHE_FILE, MODE_PRIVATE);
-		ObjectOutputStream oos = new ObjectOutputStream(fos);
-		oos.writeObject(tweets);
-		
-		Log.d("codelearn", "Successfully wrote tweets to the file.");
-		*/
-		tweetItemArrayAdapter = new TweetAdapter(this, tweetsRead);
-		setListAdapter(tweetItemArrayAdapter);
-
-		}
 		catch(Exception e)
 		{
 			Log.d("codelearn", e.getMessage());
 		}
 		
-		finally{
-			try{
-			fis.close();
-			ois.close();
-			newfos.close();
-			newoos.close();
-			}
-			catch(Exception e)
-			{
-				
-			}
-		}
+		
+		tweetItemArrayAdapter = new TweetAdapter(this, tweetsRead);
+		setListAdapter(tweetItemArrayAdapter);
 	}
 	
 	@Override
